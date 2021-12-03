@@ -21,11 +21,13 @@
   </head>
   <body>
     <div id="result">추첨 결과는?</div>
-    <div id="bonus">보너스</div>
+    <div id="bonus">보너스:</div>
+
     <script>
       const candidate = Array(45)
         .fill()
-        .map((v, i) => i + 1);
+        .map((v, i) => i++);
+
       const shuffle = [];
       while (candidate.length > 0) {
         const random = Math.floor(Math.random() * candidate.length);
@@ -39,6 +41,7 @@
       console.log(winBalls, bonus);
 
       const $result = document.querySelector('#result');
+
       function drawBall(number, $parent) {
         const $ball = document.createElement('div');
         $ball.className = 'ball';

@@ -18,38 +18,20 @@
     </style>
   </head>
   <body>
-    <!-- <table>
-      <tr>
-        <td id="td00"></td>
-        <td id="td01">X</td>
-        <td id="td02"></td>
-      </tr>
-      <tr>
-        <td id="td10">O</td>
-        <td id="td11"></td>
-        <td id="td12">O</td>
-      </tr>
-      <tr>
-        <td id="td20"></td>
-        <td id="td21">O</td>
-        <td id="td22">X</td>
-      </tr>
-    </table> -->
     <script>
       const { body } = document;
       const $table = document.createElement('table');
-      const $result = document.createElement('div');
+      const $result = document.createElement('div'); // 결과창
       const rows = [];
       let turn = 'O';
 
       const checkWinner = (target) => {
         const rowIndex = target.parentNode.rowIndex;
         const cellIndex = target.cellIndex;
-        console.log(Array.from(target.parentNode.children));
-        console.log(Array.from(target.parentNode.children).indexOf(target));
-        // 세 칸 다 채워졌나?
+        // console.log(Array.from(target.parentNode.children));
+        // console.log(Array.from(target.parentNode.children).indexOf(target));
+
         let hasWinner = false;
-        // 가로줄 검사
         if (
           rows[rowIndex][0].textContent === turn &&
           rows[rowIndex][1].textContent === turn &&
@@ -57,7 +39,6 @@
         ) {
           hasWinner = true;
         }
-        // 세로줄 검사
         if (
           rows[0][cellIndex].textContent === turn &&
           rows[1][cellIndex].textContent === turn &&
@@ -65,7 +46,6 @@
         ) {
           hasWinner = true;
         }
-        // 대각선 검사
         if (rows[0][0].textContent === turn && rows[1][1].textContent === turn && rows[2][2].textContent === turn) {
           hasWinner = true;
         }
@@ -79,32 +59,30 @@
         if (event.target.textContent !== '') {
           console.log('빈칸이 아닙니다.');
           return;
-        } else {
-          // 빈칸이면
-          console.log('빈칸입니다.');
-          event.target.textContent = turn;
-          const hasWinner = checkWinner(event.target);
-          // 승자가 있으면
-          if (hasWinner) {
-            $result.textContent = `${turn}님이 승리`;
-            $table.removeEventListener('click', callback);
-            return;
-          }
-          //승자가 없으면
-          let draw = true;
-          rows.forEach((row) => {
-            row.forEach((cell) => {
-              if (!cell.textContent) {
-                draw = false;
-              }
-            });
-          });
-          if (draw) {
-            $result.textContent = `무승부`;
-            return;
-          }
-          turn = turn === 'X' ? 'O' : 'X';
         }
+        //빈칸이면
+        console.log('빈칸입니다.');
+        event.target.textContent = turn;
+        const hasWinner = checkWinner(event.target);
+        if (hasWinner) {
+          $result.textContent = `${turn}님이 승리!`;
+          $table.removeEventListener('click', callback);
+          return;
+        }
+
+        let draw = true;
+        rows.forEach((row) => {
+          row.forEach((cell) => {
+            if (!cell.textContent) {
+              draw = false;
+            }
+          });
+        });
+        if (draw) {
+          $result.textContent = '무승부';
+          return;
+        }
+        turn = turn === 'X' ? 'O' : 'X';
       };
 
       for (let i = 1; i <= 3; i++) {
@@ -117,8 +95,8 @@
         }
         rows.push(cells);
         $table.appendChild($tr);
-        $table.addEventListener('click', callback);
       }
+      $table.addEventListener('click', callback);
       body.appendChild($table);
       body.appendChild($result);
     </script>
